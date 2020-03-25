@@ -1,4 +1,5 @@
 #!/bin/bash
+
 mkdir troll
 cd troll
 curl -s -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl
