@@ -1,4 +1,4 @@
-function troll {
+function youareuseless {
         for i in {1..$2}
         do  
                 sleep $1
