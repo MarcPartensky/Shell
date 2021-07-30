@@ -25,7 +25,7 @@ for f in $(cat $tmpfile); do
 done
 echo "Transfered files successfully"
 # echo "Uncompressing files"
-# ssh vps rename "s/_$timestamp//" $vpspath/*.tar.gz
+ssh vps rename "s/_$timestamp//" $vpspath/*.tar.gz
 # ssh vps ls $vpspath > $tmpfile
 # cat $tmpfile | xargs -I {} ssh vps tar xvzf $vpspath/{}
 # echo "Uncompressed files"
