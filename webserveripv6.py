@@ -1,5 +1,6 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/env python2
 
+import sys
 import socket
 
 from BaseHTTPServer import HTTPServer
@@ -23,7 +24,11 @@ class HTTPServerV6(HTTPServer):
 
 
 def main():
-    server = HTTPServerV6(("::", 8080), MyHandler)
+    if len(sys.argv) == 2:
+        port = sys.argv[1]
+    else:
+        port = 8080
+    server = HTTPServerV6(("::", port), MyHandler)
     server.serve_forever()
 
 
