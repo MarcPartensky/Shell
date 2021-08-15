@@ -25,7 +25,7 @@ class HTTPServerV6(HTTPServer):
 
 def main():
     if len(sys.argv) == 2:
-        port = sys.argv[1]
+        port = int(sys.argv[1])
     else:
         port = 8080
     server = HTTPServerV6(("::", port), MyHandler)
