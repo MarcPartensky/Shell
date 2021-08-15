@@ -33,4 +33,5 @@ def main():
 
 
 if __name__ == "__main__":
+    print("curl -g -6  'http://[fe80::e070:b736:bd38:caac%wlp3s0]:8080/ip'")
     main()
