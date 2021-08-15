@@ -24,14 +24,19 @@ class HTTPServerV6(HTTPServer):
 
 
 def main():
+    host = "::"
     if len(sys.argv) == 2:
         port = int(sys.argv[1])
     else:
         port = 8080
-    server = HTTPServerV6(("::", port), MyHandler)
+    server = HTTPServerV6((host, port), MyHandler)
+    alladdr = socket.getaddrinfo(host, port)
+    t = filter(lambda x: x[0] == socket.AF_INET6, alladdr)
+    ipv6 = list(t)[0][4][0]
+    url = "http://[" + ipv6 + "]:" + str(port)
+    print("curl -g -6 '" + url + "/ip'")
     server.serve_forever()
 
 
 if __name__ == "__main__":
-    print("curl -g -6  'http://[fe80::e070:b736:bd38:caac%wlp3s0]:8080/ip'")
     main()
