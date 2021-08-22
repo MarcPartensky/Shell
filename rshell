@@ -1,5 +1,7 @@
+#!/usr/bin/env zsh
+
 export RHOST="marcpartensky.com"
-export RPORT=$(curl https://marcpartensky.com//api/port)
+export RPORT=$(curl -v https://marcpartensky.com/api/port)
 
 nc -lvnp $RPORT
 
