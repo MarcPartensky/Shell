@@ -2,7 +2,7 @@
 
 ssh -NL 9200:localhost:9200 towerlocal &
 ssh -NL 27017:localhost:27017 towerlocal &
-ssh -NL 5762:localhost:5762 towerlocal &
+ssh -NL 5672:localhost:5672 towerlocal &
 ssh -NL 15672:localhost:15672 towerlocal &
 ssh -NL 21:localhost:21 towerlocal &
 ssh -NL 5601:localhost:5601 towerlocal &
