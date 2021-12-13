@@ -1,0 +1,25 @@
+#!/usr/bin/env python
+"""Find a file up in the folder hierarchy."""
+
+import os
+import argparse
+import logging
+
+parser = argparse.ArgumentParser(description="Find a file up in the parent folders.")
+parser.add_argument("file", help="File to find.")
+args = parser.parse_args()
+
+folders = os.getcwd().split("/")
+del folders[0]
+logging.info(f"folders: {folders}")
+
+while len(folders) > 1:
+    del folders[-1]
+    path = "/" + "/".join(folders)
+    logging.info(f"path: {path}")
+    logging.info(f"files: {os.listdir(path)}")
+    if args.file in os.listdir(path):
+        print("/", os.path.join(*folders, args.file), sep="")
+        break
+
+logging.info(f"{args.file} not found")
