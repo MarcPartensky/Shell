@@ -1,6 +1,6 @@
 #!/bin/sh
 COUNTER=0
-for script in $(/bin/ls *.sh); do
+for script in $(/bin/ls); do
     if [[ -x $script ]]; then
         let COUNTER++
         cmd=$(echo $script | cut -d'.' -f1)
