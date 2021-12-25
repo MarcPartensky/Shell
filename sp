@@ -202,6 +202,10 @@ function sp-help {
   echo "  sp version    - Show version information"
   echo "  sp help       - Show this information"
   echo ""
+  echo "  sp list       - Searches for playlists, plays the first result"
+  echo "  sp album      - Searches for albums, plays the first result"
+  echo "  sp artist     - Searches for artists, plays the first result."
+  echo ""
   echo "Any other argument will start a search (i.e. 'sp foo' will search for foo)."
 }
 
@@ -270,4 +274,38 @@ else
     eval "sp-search $@"
   fi
 fi
+
+
+function sp-list {
+	# Searches for playlists, plays the first result.
+	require curl
+	Q="$@"
+	SPTFY_URI=$( \
+		curl -s -G --data-urlencode "q=$Q" https://api.spotify.com/v1/search\?type=playlist \
+		| grep -E -o "spotify:user:.*:playlist:[a-zA-Z0-9]+" -m 1 \
+	)
+	sp-open $SPTFY_URI
+}
+
+function sp-album {
+	# Searches for albums, plays the first result.
+	require curl
+	Q="$@"
+	SPTFY_URI=$( \
+		curl -s -G --data-urlencode "q=$Q" https://api.spotify.com/v1/search\?type=album \
+		| grep -E -o "spotify:album:[a-zA-Z0-9]+" -m 1 \
+	)
+	sp-open $SPTFY_URI
+}
+
+function sp-artist {
+	# Searches for artists, plays the first result.
+	require curl
+	Q="$@"
+	SPTFY_URI=$( \
+		curl -s -G --data-urlencode "q=$Q" https://api.spotify.com/v1/search\?type=artist \
+		| grep -E -o "spotify:artist:[a-zA-Z0-9]+" -m 1 \
+	)
+	sp-open $SPTFY_URI
+}
 
