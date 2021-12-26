@@ -7,5 +7,6 @@ if [ -z $N ]; then
 fi
 
 for i in `seq $N`; do
-    ssh vps -q -t http -q localhost:7010/send/channel id=$CHGROUPEDES4 message='"\<@!347711466167861248\> est moche"'
+    SAMY='\<@!347711466167861248\>'
+    ssh vps -q -t http -q localhost:7010/send/channel id=$CHGROUPEDES4 message="$SAMY\ est\ moche"
 done
