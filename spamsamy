@@ -1,3 +1,11 @@
 #!/bin/sh
+# Spam Samy when the time feels right
 
-gd4 "<@\!347711466167861248>" est moche
+N=$1
+if [ -z $N ]; then
+    N=3
+fi
+
+for i in `seq $N`; do
+    ssh vps -q -t http -q localhost:7010/send/channel id=$CHGROUPEDES4 message='"\<@!347711466167861248\> est moche"'
+done
