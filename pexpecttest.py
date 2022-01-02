@@ -15,20 +15,32 @@ import pexpect
 # child.sendline("mypassword")
 
 child = pexpect.spawn("/bin/bash", encoding="utf-8")
-child.logfile = sys.stdout
-# child.expect("Your bash prompt here")
-child.sendline("cd")
-child.expect(".*\$ ")
-# If you are using pxssh you can use this
-# child.prompt()
-# child.expect("Your bash prompt here")
-print(child.before)
-# child.expect("Your bash prompt here")
-child.sendline("ls")
-child.expect(".*\$ ")
-# If you are using pxssh you can use this
-# child.prompt()
-# child.expect("Your bash prompt here")
-print(child.before)
-child.expect(".*\$ ")
+with open("/tmp/pexpect_test", "w") as stream:
+    child.logfile = stream
+    # child.expect("Your bash prompt here")
+    child.sendline("cd /srv")
+    child.expect(".*\$ ")
+    # If you are using pxssh you can use this
+    # child.prompt()
+    # child.expect("Your bash prompt here")
+    print(child.before)
+    print(child.after)
+    # child.expect("Your bash prompt here")
+    child.sendline("ls")
+    child.expect(".*\$ ")
+    # If you are using pxssh you can use this
+    # child.prompt()
+    # child.expect("Your bash prompt here")
+    # print(child.before)
+    print(child.after)
+    # child.expect(".*\$ ")
+    # while True:
+    # print(child.readlines(-1))
+    # print(child.read_nonblocking())
+    # print(child.readline())
+    # print(child.after)
+    # print(child.readlines(2))
+    # print(child.after)
+    # while child.stdout.readable:
+    #     print(child.stdout.readline())
 child.close()
