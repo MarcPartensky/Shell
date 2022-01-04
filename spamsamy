@@ -3,7 +3,7 @@
 
 N=$1
 if [ -z $N ]; then
-    N=3
+    N=1
 fi
 
 for i in `seq $N`; do
