@@ -4,6 +4,7 @@ import spotipy
 from rich import print
 
 import requests
+import termcolor
 
 client_id = os.environ["SPOTIPY_CLIENT_ID"]
 client_secret = os.environ["SPOTIPY_CLIENT_SECRET"]

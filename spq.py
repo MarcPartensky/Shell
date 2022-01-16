@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 import os
 import spotipy
+import termcolor
+
+# from rich import print
 
 client_id = os.environ["SPOTIPY_CLIENT_ID"]
 client_secret = os.environ["SPOTIPY_CLIENT_SECRET"]
@@ -38,8 +41,12 @@ def tracks(user_id, playlist_id):
     """List all tracks"""
     track_ids = get_playlist_ids(user_id, playlist_id)
     for track_id in track_ids:
-        track = sp.track(track_id)
-        print(track["name"], "-", track["artists"][0]["name"])
+        track_item = sp.track(track_id)
+        track_fullname = track_item["name"] + "-" + track_item["artists"][0]["name"]
+        if track_id == track["item"]["id"]:
+            termcolor.cprint(track_fullname, attrs=["bold"])
+        else:
+            print(track_fullname)
 
 
 my_id: str = sp.me()["id"]
