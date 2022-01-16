@@ -20,5 +20,7 @@ auth_manager = spotipy.oauth2.SpotifyOAuth(
 
 sp = spotipy.Spotify(auth_manager=auth_manager)
 track: dict = sp.current_user_playing_track()
+del track["item"]["available_markets"]
+del track["item"]["album"]["available_markets"]
 
 print(track)
