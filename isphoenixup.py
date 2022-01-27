@@ -4,9 +4,11 @@
 
 import os
 import argparse
+import logging
 
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.common.by import By
 
 PHOENIX_USERNAME = os.environ["PHOENIX_USERNAME"]
 PHOENIX_PASSWORD = os.environ["PHOENIX_PASSWORD"]
@@ -28,16 +30,9 @@ if args.headless:
 driver = webdriver.Firefox(options=options)
 driver.set_window_size(1120, 550)
 driver.get("https://phoenix.juniorisep.com")
-driver.find_element_by_id("username").send_keys(PHOENIX_USERNAME)
-driver.find_element_by_id("password").send_keys(PHOENIX_PASSWORD)
-driver.find_element_by_xpath(
-    "//div["
-    "contains(@class, MuiButtonBase-root) and"
-    "contains(@class, MuiButtone-root) and"
-    "contains(@class, MuiButton-contained) and"
-    "contains(@class, MuiButton-containedPrimary) and"
-    "contains(@class, MuiButton-fullWidth)"
-    "]"
-).click()
-print(driver.current_url)
+driver.find_element(By.ID, "username").send_keys(PHOENIX_USERNAME)
+driver.find_element(By.ID, "password").send_keys(PHOENIX_PASSWORD)
+
+driver.find_element(By.TAG_NAME, "button").click()
+assert driver.current_url == "https://phoenix.juniorisep.com/"
 driver.quit()
