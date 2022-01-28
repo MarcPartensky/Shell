@@ -2,3 +2,4 @@
 proxy-list.txt
 __pycache__/
 .cache
+*.log
