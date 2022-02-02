@@ -9,15 +9,21 @@ sudo apt-get remove docker docker-engine docker.io containerd runc -y
 sudo apt-get update
 
 # Install dependencies
-sudo apt-get install -y \
+sudo apt install -y \
+    apt-transport-https \
     ca-certificates \
     curl \
-    gnupg \
-    lsb-release
+    gnupg2 \
+    software-properties-common
 
 # Add docker official gpg key
-curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
 
-# Install docker engine
- sudo apt-get update
- sudo apt-get install docker-ce docker-ce-cli containerd.io -y
+# Add apt repository
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable"
+
+# Policy check
+apt-cache policy docker-ce
+
+# If you want to avoid typing sudo whenever you run the docker command, add your username to the docker group
+sudo usermod -aG docker ${USER}
