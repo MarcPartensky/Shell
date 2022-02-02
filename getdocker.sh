@@ -3,13 +3,13 @@
 # Get docker on debian
 
 # Uninstall old versions
-sudo apt-get remove docker docker-engine docker.io containerd runc
+sudo apt-get remove docker docker-engine docker.io containerd runc -y
 
 # Update
 sudo apt-get update
 
 # Install dependencies
-sudo apt-get install \
+sudo apt-get install -y \
     ca-certificates \
     curl \
     gnupg \
@@ -20,4 +20,4 @@ curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o 
 
 # Install docker engine
  sudo apt-get update
- sudo apt-get install docker-ce docker-ce-cli containerd.io
+ sudo apt-get install docker-ce docker-ce-cli containerd.io -y
