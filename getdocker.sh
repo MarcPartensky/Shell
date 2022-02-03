@@ -3,4 +3,4 @@
 apt-get update
 apt-get upgrade -y
 apt-get install -y curl
-. <(curl https://get.docker.com)
+curl https://get.docker.com | sh
