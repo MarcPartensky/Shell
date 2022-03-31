@@ -23,16 +23,16 @@ with open("/tmp/pexpect_test", "w") as stream:
     # If you are using pxssh you can use this
     # child.prompt()
     # child.expect("Your bash prompt here")
-    print(child.before)
-    print(child.after)
+    print(1, child.before)
+    print(1, child.after)
     # child.expect("Your bash prompt here")
-    child.sendline("ls")
+    child.sendline("pwd")
     child.expect(".*\$ ")
     # If you are using pxssh you can use this
     # child.prompt()
     # child.expect("Your bash prompt here")
-    # print(child.before)
-    print(child.after)
+    print(2, child.before)
+    print(2, child.after)
     # child.expect(".*\$ ")
     # while True:
     # print(child.readlines(-1))
