@@ -1,0 +1,22 @@
+#!/usr/bin/env python
+
+import os
+
+path = os.path.expandvars("$HOME/wallpapers")
+
+files = os.listdir(path)
+
+wallpapers = []
+for file in files:
+    if file.endswith(".jpg"):
+        wallpapers.append(file)
+
+print(wallpapers)
+
+for i, wallpaper in enumerate(wallpapers):
+    oldpath = os.path.join(path, wallpaper)
+    newpath = os.path.join(path, f"{i}.jpg")
+    os.rename(oldpath, newpath)
+
+files = os.listdir(path)
+print(files)
