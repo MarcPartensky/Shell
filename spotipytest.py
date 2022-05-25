@@ -83,6 +83,8 @@ def playpause_song():
     print(response.text)
 
 
+# current_user_saved_tracks_add(tracks=None)
+
 playpause_song()
 
 # playlists = sp.user_playlists("spotify")
