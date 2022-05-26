@@ -12,7 +12,9 @@ client_secret = os.environ["SPOTIPY_CLIENT_SECRET"]
 
 redirect_uri = "http://localhost:8888/callback/"
 # scope = "user-library-read"
-scope = "user-read-currently-playing"
+# scope = "user-read-currently-playing"
+# scope = "user-modify-playback-state"
+scope = "user-read-currently-playing user-modify-playback-state"
 
 
 auth_manager = spotipy.oauth2.SpotifyOAuth(
@@ -83,9 +85,16 @@ def playpause_song():
     print(response.text)
 
 
+def play_song():
+    response = put("me/player/play")
+    print(response.reason)
+    print(response.text)
+
+
 # current_user_saved_tracks_add(tracks=None)
 
-playpause_song()
+# playpause_song()
+play_song()
 
 # playlists = sp.user_playlists("spotify")
 # while playlists:
