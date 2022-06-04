@@ -1,3 +1,4 @@
 #!/bin/sh
 
-spenv spcurrent > /tmp/song
+~/.local/bin/spenv spcurrent > /tmp/song
+notify-send "$(cat /tmp/song)"
