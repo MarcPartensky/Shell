@@ -1,7 +1,5 @@
 #!/bin/sh
 
 source ~/git/secrets/spotipy.sh
-[[ $1 == 'spcurrent' ]] && ~/.local/bin/spcurrent ${@:2}
-[[ $1 == 'splike' ]] && ~/.local/bin/splike ${@:2}
-[[ $1 == 'spdislike' ]] && ~/.local/bin/spdislike ${@:2}
-[[ $1 == 'spseek' ]] && ~/.local/bin/spseek ${@:2}
+
+~/.local/bin/sp$1 ${@:2}
