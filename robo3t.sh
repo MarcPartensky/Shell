@@ -8,4 +8,5 @@ docker run --rm -d \
     -v /home/marc/.ssh/id_rsa:/root/.ssh/id_rsa \
     -v /home/marc/.ssh/config:/root/.ssh/config \
     -v /tmp/.X11-unix:/tmp/.X11-unix \
+    -t robo3t \
     marcpartensky/robo3t
