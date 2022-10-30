@@ -1,7 +1,8 @@
 #!/usr/bin/env zsh
 
 # Do some command and comeback later.
-name=`echo $1-$RANDOM`
+# name="$1-$RANDOM"
+name=$1
 cmd=$@
 description="$name : $cmd"
 
