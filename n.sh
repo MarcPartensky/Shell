@@ -2,7 +2,7 @@
 
 if ! [ "$MAIN_ENV" = "$HOST" ]
 then
-    if [ "$HOST" = "vps" ]
+    if [ "$HOST" = "contabo" ]
     then
         nbotnovps $@
     else
