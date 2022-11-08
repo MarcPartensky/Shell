@@ -4,7 +4,7 @@ swaylock \
     --screenshots \
     --indicator \
     --clock \
-    --fade-in 0.1 \
+    --fade-in 1 \
     --effect-blur 3x3 \
     --inside-wrong-color f38ba8  \
     --ring-wrong-color 11111b  \
