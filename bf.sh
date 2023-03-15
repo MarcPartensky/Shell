@@ -2,7 +2,7 @@
 
 wifi=`nmcli dev wifi list | wofi -d | tr -d '*'`
 ssid=`echo $wifi | awk '{print $1}'`
-name=`echo $wifi | awk '{print $2}'`
+# name=`echo $wifi | awk '{print $2}'`
 echo Bruteforcing $wifi
 
 # read ssid
