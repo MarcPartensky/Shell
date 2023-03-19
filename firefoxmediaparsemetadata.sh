@@ -1,7 +1,7 @@
 #!/bin/sh
 
 METADATA=/tmp/firefoxmediametadata
-playerctl -p firefox metadata > $METADATA
+playerctl -p firefox metadata > $METADATA || exit
 
 title=`cat $METADATA | grep xesam:title | tr -s ' ' | awk '{$1=$2=""; print $0}'`
 artist=`cat $METADATA | grep xesam:artist | tr -s ' ' | awk '{$1=$2=""; print $0}'`
