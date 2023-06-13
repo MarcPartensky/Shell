@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DOCKER_HOST=unix:///run/docker.sock
+# DOCKER_HOST=unix:///run/docker.sock
 SERVICES_PATH=~/git/docker/services
 FOCALBOARD_ELECTRON_PATH=~/git/focalboard-electron
 
