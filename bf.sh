@@ -1,9 +1,13 @@
 #!/bin/sh
 
-wifi=`nmcli dev wifi list | wofi -d | tr -d '*'`
-ssid=`echo $wifi | awk '{print $1}'`
-# name=`echo $wifi | awk '{print $2}'`
-echo Bruteforcing $wifi
+# wifi=`nmcli dev wifi list | wofi -d | tr -d '*'`
+# wifi=`nmcli dev wifi list | tr -d '*'`
+# echo $wifi
+# ssid=`echo $wifi | awk '{print $1}'`
+# # name=`echo $wifi | awk '{print $2}'`
+# echo Bruteforcing $wifi
+# exit 0
+require
 
 # read ssid
 ROCKYOU_PATH=~/Downloads/rockyou.txt
