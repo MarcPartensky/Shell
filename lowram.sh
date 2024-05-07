@@ -10,7 +10,7 @@ available=$(echo "$RAM"|awk '/^[mM]em\.?:/{print $7}')
 # warn if less than these levels is free
 # warning = 20%
 # critical = 10%
-warning_mb=$(expr $total / 2)
+warning_mb=$(expr $total / 3)
 critical_mb=$(expr $total / 10)
 
 available_gb=$(bc -l <<< "scale=2; $available / 1024")
