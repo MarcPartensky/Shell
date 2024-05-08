@@ -14,6 +14,8 @@ warning_mb=$(expr $total / 3)
 critical_mb=$(expr $total / 10)
 
 available_gb=$(bc -l <<< "scale=2; $available / 1024")
+used_gb=$(bc -l <<< "scale=2; $total / 1024 - $available / 1024")
+
 critical_gb=$(bc -l <<< "scale=2; $critical_mb / 1024")
 warning_gb=$(bc -l <<< "scale=2; $warning_mb / 1024")
 
@@ -27,9 +29,9 @@ gb="Gb"
 if [ $available -lt $critical_mb ]; then
     # using -u critical doesn't allow the notification to go away after -t ms have past
     # this causes issues if afk, since the notifications will queue until the -u critical is closed
-    notify-send -u critical -i error -h int:transient:1 -t 60000 "Critical low memory!" "$available_gb$gb used about $percentage%"
+    notify-send -u critical -i error -h int:transient:1 -t 60000 "Critical low memory!" "$used_gb$gb used: $percentage%"
 elif [ $available -lt $warning_mb ]; then
-    notify-send -u normal -h int:transient:1 -t 15000 "Warning low memory" "$available_gb$gb used about $percentage%"
+    notify-send -u normal -h int:transient:1 -t 15000 "Warning low memory" "$used_gb$gb used: $percentage%"
 fi
 
 # outputs if not ran by cron
