@@ -2,6 +2,7 @@
 
 #!/bin/bash
 
+
 threshold=20
 wallpapers_path=~/wallpapers
 
@@ -67,7 +68,7 @@ sortwpp() {
 # }
 
 symlink() {
-    rmdir $wallpapers_path/$active_folder
+    rm $wallpapers_path/$active_folder
     echo ln -sf $wallpapers_path/$time $wallpapers_path/$active_folder
     ln -sf $wallpapers_path/$time $wallpapers_path/$active_folder
     # time=$1
@@ -78,7 +79,12 @@ symlink() {
     # done
 }
 
-time=`is_day; [ $? -eq 1 ] && echo $day_folder || echo $night_folder`
+if [ $# -eq 0 ]; then
+    time=`is_day; [ $? -eq 1 ] && echo $day_folder || echo $night_folder`
+else
+    time=$1
+fi
+
 echo Moving wallpapers for $time time
 echo - sort
 sortwpp
