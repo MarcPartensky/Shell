@@ -58,30 +58,33 @@ sortwpp() {
     done
 }
 
-clean() {
-    for wallpaper in $wallpapers_path/*; do
-        # if folder continue loop
-        if [ -d $wallpaper ]; then continue; fi
-        rm $wallpaper
-    done
-}
+# clean() {
+#     for wallpaper in $wallpapers_path/$active_folder/*; do
+#         # if folder continue loop
+#         if [ -d $wallpaper ]; then continue; fi
+#         if [ -f $wallpaper ]; then rm $wallpaper; fi
+#     done
+# }
 
-insert() {
-    time=$1
-    for wallpaper in $wallpapers_path/$time/*; do
-        if [ -d $wallpaper ]; then continue; fi
-        # echo cp $wallpaper  $wallpapers_path/$active_folder
-        cp $wallpaper $wallpapers_path/$active_folder
-    done
+symlink() {
+    rmdir $wallpapers_path/$active_folder
+    echo ln -sf $wallpapers_path/$time $wallpapers_path/$active_folder
+    ln -sf $wallpapers_path/$time $wallpapers_path/$active_folder
+    # time=$1
+    # for wallpaper in $wallpapers_path$time/*; do
+    #     echo cp $wallpaper  $wallpapers_path/$active_folder
+    #     if [ -d $wallpaper ]; then continue; fi
+    #     cp $wallpaper $wallpapers_path/$active_folder
+    # done
 }
 
 time=`is_day; [ $? -eq 1 ] && echo $day_folder || echo $night_folder`
 echo Moving wallpapers for $time time
 echo - sort
 sortwpp
-echo - clean
-clean
-echo - insert
-insert
+# echo - clean
+# clean
+echo - symlink
+symlink
 echo done
 n "Moved wallpapers for $time time"
