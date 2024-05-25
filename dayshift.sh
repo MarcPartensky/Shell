@@ -93,4 +93,4 @@ sortwpp
 echo - symlink
 symlink
 echo done
-n "Moved wallpapers for $time time"
+notify-send "Moved wallpapers for $time time"
