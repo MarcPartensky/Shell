@@ -7,7 +7,8 @@ import random
 import argparse
 from typing import List
 
-PATH = os.path.expandvars("$WALLPAPERS_PATH")
+
+PATH = os.path.expandvars("$WALLPAPERS_PATH") + "/active"
 CURRENT = os.path.expandvars("$HOME/.fehbg")
 
 
