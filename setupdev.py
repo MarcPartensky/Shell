@@ -12,13 +12,39 @@ class Commands:
     def __init__(self):
         self.set_workspace()
 
+    def get_ram_percentage(self):
+        # Execute the 'free' command to get memory usage details
+        result = subprocess.run(['free', '-b'], stdout=subprocess.PIPE)
+        # Decode the result to get a string
+        output = result.stdout.decode('utf-8')
+
+        # Split the output into lines
+        lines = output.split('\n')
+        
+        # Find the line that starts with 'Mem:'
+        mem_line = next(line for line in lines if line.startswith('Mem:'))
+
+        # Split the line into fields and extract total and used memory
+        fields = mem_line.split()
+        total_memory = int(fields[1])
+        used_memory = int(fields[2])
+
+        # Calculate the percentage of used memory
+        used_percentage = used_memory / total_memory
+
+        return used_percentage
+
     def set_workspace(self):
         raw_workspace = self.run("hyprctl activeworkspace")
         self.workspace = int(raw_workspace.split("\n")[0].split(" ")[2])
+        self.delay = 2*self.get_ram_percentage()
+        # self.notify(self.delay)
 
-    def run(self, cmd: str) -> str:
+    def run(self, cmd: str, delay=0) -> str:
         print(cmd)
-        return subprocess.run(cmd.split(), capture_output=True).stdout.decode("utf-8")
+        output = subprocess.run(cmd.split(), capture_output=True).stdout.decode("utf-8")
+        if delay: time.sleep(delay)
+        return output
 
     def notify(self, message: str, color="rgb(ffffff)", timeout=5000):
         """Notify"""
@@ -78,6 +104,17 @@ class Commands:
 
     # def setup_dev_workspace(self, workspace: int):
 
+    def setup_neovim(self, windows: dict):
+        nvim_windows = self.get_windows_from_process(windows, "nvim")
+        if len(nvim_windows) == 0:
+            open_nvim_cmd = "hyprctl dispatch exec".split() + ["alacritty -e nvim --listen /tmp/nvim"]
+            print(open_nvim_cmd)
+            subprocess.run(open_nvim_cmd, capture_output=True).stdout.decode("utf-8")
+            time.sleep(self.delay*2)
+            workspace_windows = self.get_workspace_windows(self.workspace)
+            nvim_windows = self.get_windows_from_process(workspace_windows, "nvim")
+        return nvim_windows
+
     def setup_workspace(self):
         """Setup active workspace"""
         workspace_windows = self.get_workspace_windows(self.workspace)
@@ -89,8 +126,7 @@ class Commands:
             else:
                 other_windows.append(window)
 
-        nvim_windows = self.get_windows_from_process(alacritty_windows, "nvim")
-        # print("nvim windows:", nvim_windows)
+        nvim_windows = self.setup_neovim(alacritty_windows)
         shell_windows = self.get_the_rest(alacritty_windows, nvim_windows)
         print(shell_windows)
 
@@ -188,7 +224,7 @@ class Commands:
         self.focus(editor_window)
         self.run("hyprctl dispatch hy3:makegroup v")
 
-        self.spawn_nvim_subprocess(f":call jobstart(['alacritty', '--working-directory', '{cwd}'])<CR>", delay=0.5)
+        self.spawn_nvim_subprocess(f":call jobstart(['alacritty', '--working-directory', '{cwd}'])<CR>", delay=self.delay)
         # self.spawn_nvim_subprocess(f":call jobstart(['alacritty'])<CR>")
 
         # windows = self.get_workspace_windows(self.workspace)
@@ -200,7 +236,7 @@ class Commands:
 
         self.focus(editor_window)
         width, height = 135, 310
-        self.notify(f"{width}, {height}")
+        # self.notify(f"{width}, {height}")
         self.run(f"hyprctl dispatch resizeactive {width} {height}")
 
     def get_directory_containing(self, directory: str, searched_node: str):
