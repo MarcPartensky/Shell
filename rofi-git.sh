@@ -20,6 +20,9 @@ if [ -z "$selected_project" ]; then
   exit 1
 fi
 
-# Ouvrir une nouvelle fenêtre alacritty avec le répertoire sélectionné en tant que workdir
-alacritty --working-directory "$GIT_DIR/$selected_project"
+hyprctl -j  clients
 
+# Ouvrir une nouvelle fenêtre alacritty avec le répertoire sélectionné en tant que workdir
+alacritty --working-directory "$GIT_DIR/$selected_project" &
+
+hyprctl -j  clients
