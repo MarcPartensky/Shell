@@ -7,7 +7,7 @@ threshold=20
 wallpapers_path=~/wallpapers
 
 beginning="08:00"
-end="22:00"
+end="21:59"
 
 day_folder="day"
 night_folder="night"
