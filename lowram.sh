@@ -11,7 +11,7 @@ available=$(echo "$RAM"|awk '/^[mM]em\.?:/{print $7}')
 # warning = 20%
 # critical = 10%
 warning_mb=$(expr $total / 3)
-critical_mb=$(expr $total / 10)
+critical_mb=$(expr $total / 5)
 
 available_gb=$(bc -l <<< "scale=2; $available / 1024")
 used_gb=$(bc -l <<< "scale=2; $total / 1024 - $available / 1024")
