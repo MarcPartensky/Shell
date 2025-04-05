@@ -1,0 +1,102 @@
+#!/usr/bin/env bash
+
+shopt -s lastpipe
+
+export SHELL=bash
+CACHE_DIR="$HOME/.cache/niz"
+CACHE_FILE="$CACHE_DIR/cache.txt"
+CACHE_AGE=86400 # 24h en secondes
+
+if [[ -z $NIZ ]]; then
+  if command -v nix-env >/dev/null 2>&1; then
+    NIZ=nix-env
+  else
+    echo "nix-env non trouvé. Installez Nix d'abord !" >&2
+    exit 1
+  fi
+fi
+
+__update_cache() {
+  mkdir -p "$CACHE_DIR"
+  echo "Mise à jour du cache des paquets (peut prendre du temps)..." >&2
+  nix-env -qa --json | jq -r 'to_entries[] | "\(.key) \(.value.description)"' > "$CACHE_FILE"
+}
+
+__niz_help() {
+  cat >&2 <<EOF
+niz - Interface TUI pour nix-env (fzf + cache)
+
+Usage: niz [OPTIONS] [COMMANDE]
+
+Commandes nix-env supportées :
+  -iA     Installer des paquets (défaut)
+  -e      Désinstaller des paquets
+  -q      Lister les paquets installés
+
+Options :
+  -h, --help       Affiche cette aide
+  --force-update   Force la mise à jour du cache
+  --clean-cache    Supprime le cache des paquets
+
+Exemples :
+  niz           # Installer des paquets
+  niz -e        # Désinstaller des paquets
+  niz -iA gui   # Installer avec un motif de recherche
+EOF
+  exit 0
+}
+
+__fzf_preview() {
+  if [[ " ${ARGS[*]} " =~ " -e " ]]; then
+    nix-env -q --description "$1"
+  else
+    grep "^$1 " "$CACHE_FILE" | cut -d' ' -f2-
+  fi
+}
+
+__niz_list() {
+  if [[ " ${ARGS[*]} " =~ " -e " ]]; then
+    nix-env -q
+  else
+    # Vérifier les dépendances
+    if ! command -v jq >/dev/null; then
+      echo "Installez jq avec : nix-env -iA nixpkgs.jq" >&2
+      exit 1
+    fi
+
+    # Gestion du cache
+    if [[ $FORCE_UPDATE || ! -f "$CACHE_FILE" || $(( $(date +%s) - $(stat -c %Y "$CACHE_FILE" 2>/dev/null) )) -gt $CACHE_AGE ]]; then
+      __update_cache
+    fi
+
+    cat "$CACHE_FILE"
+  fi
+}
+
+# Gestion des arguments
+while [[ -n $1 ]]; do
+  case $1 in
+    -h | --help)    __niz_help ;;
+    --force-update) FORCE_UPDATE=1; shift ;;
+    --clean-cache) rm -f "$CACHE_FILE"; exit ;;
+    __fzf_preview) shift; __fzf_preview "$@"; exit ;;
+    *)            ARGS+=("$1"); shift ;;
+  esac
+done
+
+[[ ! ${ARGS[*]} =~ -(iA|e|q) ]] && ARGS=(-iA)
+
+__niz_list | fzf \
+  --multi \
+  --ansi \
+  --prompt="📦❯ " \
+  --preview="'${BASH_SOURCE[0]}' __fzf_preview {1}" \
+  --preview-window=wrap \
+  --header="C-d: update cache | C-l: clear query" \
+  --bind="ctrl-l:clear-query" | readarray -t PICKS
+  --bind="ctrl-d:execute(rm -f $CACHE_FILE)" \
+
+[[ ${#PICKS[@]} -eq 0 ]] && exit 0
+
+exec $NIZ "${ARGS[@]}" "${PICKS[@]%% *}"
+
